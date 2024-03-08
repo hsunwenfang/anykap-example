@@ -16,14 +16,14 @@ jobs:
       run: |
         kubectl config current-context
     - name: apply kustomization
-      run:
+      run: |
         kubectl apply -k ~/anykap/anykap-example/.
     - name: Check kap pod
       working-directory: ~
-      run:
+      run: |
         kubectl get po -l app.kubernetes.io/instance=mykap
     - name: Check kap artifact
       working-directory: ~/anykap/anykap-example
-      run:
+      run: |
         . ~/anykap/.anykap-venv/bin/activate
         kubectl anykap a
