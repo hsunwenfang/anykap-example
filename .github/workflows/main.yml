@@ -23,7 +23,7 @@ jobs:
       run: |
         kubectl get po -l app.kubernetes.io/instance=mykap
     - name: Check kap artifact
-      working-directory: ~/anykap/anykap-example
       run: |
         . ~/anykap/.anykap-venv/bin/activate
+        cd ~/anykap/anykap-example
         kubectl anykap a
