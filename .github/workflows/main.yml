@@ -3,7 +3,7 @@
 name: anykap
 on: [push, workflow_dispatch]
 jobs:
-  check-bats-version:
+  anykap:
     # choose runner on label
     runs-on: [self-hosted, linux, x64, anykap]
     steps:
@@ -15,9 +15,10 @@ jobs:
     - name: Check cluster config
       run: |
         kubectl config current-context
-    - name: apply kustomization
+    - name: apply kustomization and sleep 10
       run: |
         kubectl apply -k ~/anykap/anykap-example/.
+        sleep 10
     - name: Check kap pod
       working-directory: ~
       run: |

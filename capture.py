@@ -4,6 +4,17 @@ from anykap import *
 from datetime import timedelta
 from functools import partial
 
+def tcpdump_factory(delay_rule, **config):
+    task = ShellTask(
+        # why is chmod needed?
+        script=r'chmod 777 .; tcpdump -iany -C10 -W6 -w "out.pcap" port 53',
+        **config
+    )
+    # this is the current recommended way to update receptor if receptors needs
+    # to be changed on task creation
+    task.receptors['exit'].add_filter(delay_rule.getfilter())
+    return task
+
 def hq_factory():
 
     hq = HQ()
@@ -42,16 +53,6 @@ def hq_factory():
         throttle=timedelta(minutes=3),
     ))
 
-    def tcpdump_factory(**config):
-        task = ShellTask(
-            # why is chmod needed?
-            script=r'chmod 777 .; tcpdump -iany -C10 -W6 -w "out.pcap" port 53',
-            **config
-        )
-        # this is the current recommended way to update receptor if receptors needs
-        # to be changed on task creation
-        task.receptors['exit'].add_filter(delay_rule.getfilter())
-        return task
 
     hq.add_rule(FissionRule(
         delay_rule.getfilter().chain({}),  # chain({}) makes sure no args sent to factory 
@@ -60,7 +61,8 @@ def hq_factory():
         task_factory=tcpdump_factory,
     ))
     # the initial tcpdump capture before any trigger
-    hq.add_task(tcpdump_factory(name='tcpdump-0'))
+
+    hq.add_task(tcpdump_factory(delay_rule, name='tcpdump-0'))
 
     return hq
 
