@@ -24,7 +24,7 @@ def hq_factory():
     discovery = hq.add_task(PodContainerDiscovery(
         pod_query={
             'labels': ['application=contoso'],
-            'name': 'contoso',  # crictl pods --name supports regular expression
+            # 'name': 'contoso',  # crictl pods --name supports regular expression
         },
         container_query={}, # maybe we want to find a specific container
         cadence=60,  # we do a scan every minute
