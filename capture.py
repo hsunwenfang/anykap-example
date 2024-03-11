@@ -41,7 +41,8 @@ def hq_factory():
             keep_artifact=False,
             stdout_mode='notify',
             # Optional Python regular expression pattern
-            stdout_filter='a very curous error: (?P<detail>.*)',
+            stdout_filter='SyncProxyRules complete',
+            # stdout_filter='a very curous error: (?P<detail>.*)',
             script=r'crictl logs -f -t "$container_id"',
         )
     ))
