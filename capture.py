@@ -23,7 +23,8 @@ def hq_factory():
     hq.add_task(HQREPLServer())
     discovery = hq.add_task(PodContainerDiscovery(
         pod_query={
-            'labels': ['application=contoso'],
+            # 'labels': ['application=contoso'],
+            'labels': ['component=kube-proxy'],
             # 'name': 'contoso',  # crictl pods --name supports regular expression
         },
         container_query={}, # maybe we want to find a specific container
